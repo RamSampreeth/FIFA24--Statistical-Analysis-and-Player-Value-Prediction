@@ -1,0 +1,209 @@
+---
+title: "project"
+author: "ak2508"
+date: "2023-12-05"
+output: html_document
+---
+```{r}
+df<-read.csv(file.choose())
+df
+```
+
+
+striker
+dependent variable- player value
+independent variable - dribbling, vision, att_position, ball_control, reactions
+t-tests
+
+```{r}
+
+# 1. dribbling 
+model <- lm(value ~ dribbling, data = df) #mpg -y-variable , y ~ x
+summary(model)
+```
+```{r}
+#2. dribbling ball_control
+
+model <- lm(value ~ ball_control, data = df) #mpg -y-variable , y ~ x
+summary(model)
+```
+
+```{r}
+#2. dribbling ball_control
+model <- lm(value ~ vision, data = df) #mpg -y-variable , y ~ x
+summary(model)
+
+```
+
+```{r}
+#2.  ball_control
+model <- lm(value ~reactions , data = df) #mpg -y-variable , y ~ x
+summary(model)
+
+```
+
+```{r}
+#2. dribbling ball_control
+model <- lm(value ~ att_position, data = df) #mpg -y-variable , y ~ x
+summary(model)
+```
+
+```{r}
+#ANOVA TEST
+lmod <- lm(value ~  dribbling+ vision+ att_position+ ball_control+ reactions, data = df)
+#model <- lm(value ~ att_position, data = df) #mpg -y-variable , y ~ x
+summary(lmod)
+```
+
+```{r}
+library(car)
+model_striker <- lm(value ~  dribbling+ vision+ att_position+ ball_control+ reactions, data = df) #mpg -y-variable , y ~ x
+summary(model_striker)
+```
+
+```{r}
+linearHypothesis(model_striker, c('dribbling= 0'))
+```
+
+```{r}
+linearHypothesis(model_striker, c('vision= 0'))
+```
+
+```{r}
+linearHypothesis(model_striker, c('att_position= 0'))
+```
+
+```{r}
+linearHypothesis(model_striker, c('ball_control= 0'))
+```
+
+```{r}
+linearHypothesis(model_striker, c('reactions= 0'))
+```
+
+vision
+ball_control
+crossing
+curve
+Dribbling
+
+```{r}
+library(car)
+model_midf <- lm(value ~  dribbling+ vision+ crossing+ ball_control+ curve, data = df) #mpg -y-variable , y ~ x
+summary(model_midf)
+```
+
+```{r}
+linearHypothesis(model_midf, c('dribbling= 0'))
+```
+
+```{r}
+linearHypothesis(model_midf, c('vision= 0'))
+```
+
+```{r}
+linearHypothesis(model_midf, c('crossing= 0'))
+```
+
+```{r}
+linearHypothesis(model_midf, c('ball_control= 0'))
+```
+
+```{r}
+linearHypothesis(model_midf, c('curve= 0'))
+```
+
+gk_positioning, gk_diving, gk_handling, gk_kicking, gk_reflexes
+
+```{r}
+library(car)
+model_gk <- lm(value ~  gk_positioning+gk_diving+gk_handling+gk_kicking+gk_reflexes, data = df) #mpg -y-variable , y ~ x
+summary(model_gk)
+```
+
+```{r}
+linearHypothesis(model_gk, c('gk_positioning = 0'))
+```
+
+```{r}
+linearHypothesis(model_gk, c('gk_diving = 0'))
+```
+
+```{r}
+linearHypothesis(model_gk, c('gk_handling = 0'))
+```
+
+```{r}
+linearHypothesis(model_gk, c('gk_kicking= 0'))
+```
+
+```{r}
+linearHypothesis(model_gk, c('gk_reflexes = 0'))
+```
+
+```{r}
+library(car)
+model_defender <- lm(value ~  acceleration+sprint_speed+slide_tackle+stand_tackle+interceptions, data = df) #mpg -y-variable , y ~ x
+summary(model_defender)
+```
+
+```{r}
+linearHypothesis(model_defender, c('acceleration = 0'))
+```
+```{r}
+linearHypothesis(model_defender, c('sprint_speed = 0'))
+```
+```{r}
+linearHypothesis(model_defender, c('slide_tackle = 0'))
+```
+```{r}
+linearHypothesis(model_defender, c('stand_tackle = 0'))
+```
+
+```{r}
+linearHypothesis(model_defender, c('interceptions = 0'))
+```
+
+```{r}
+lmod <- lm(heading ~height+weight+jumping , data = df) # predicting species using all other variable full model
+summary(lmod)
+```
+
+```{r}
+lmod_1 <- lm(heading ~jumping+weight , data = df) # small model 
+res_anova <- anova(lmod_1,lmod)
+res_anova
+# p-value is large => h0 not rejected =>height variable can be removed
+#summary(lmod_1)
+```
+
+```{r}
+lmod_2 <- lm(heading ~jumping , data = df) # small model 
+res_anova <- anova(lmod_2,lmod_1)
+res_anova
+# p-value >0.05 => h0 not rejected => weight variable can be removed
+summary(lmod_2)
+```
+
+```{r}
+res_anova <- anova(lmod_2,lmod)
+res_anova
+# p-value is large => h0 not rejected => area variable can be removed
+```
+
+Penalties~composare, reaction, shot_power
+
+```{r}
+lmod <- lm(penalties~composure+reactions+shot_power+volleys+vision+strength , data = df) 
+summary(lmod)
+```
+
+
+```{r}
+lmod_1 <- lm(heading ~jumping+weight , data = df) # small model 
+res_anova <- anova(lmod_1,lmod)
+res_anova
+# p-value is large => h0 not rejected =>height variable can be removed
+summary(lmod_1)
+```
+
